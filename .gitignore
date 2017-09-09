@@ -1,0 +1,5 @@
+node_modules/
+secrets.js
+nginx.data.db
+testingNginx.db
+tmpNginxLog.log

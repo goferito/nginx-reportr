@@ -1,0 +1,36 @@
+{
+  "name": "nginx-reportr",
+  "version": "0.0.1",
+  "description": "Gather metrics from Nginx log for Reportr (reportr.io)",
+  "main": "index.js",
+  "author": "Mr. Goferito",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/goferito/nginx-reportr"
+  },
+  "bugs": {
+    "url": "https://github.com/goferito/nginx-reportr/issues"
+  },
+  "dependencies": {
+    "nedb": "^1.1.2",
+    "nginxparser": "^1.2.0",
+    "reportr-api": "^2.0.0",
+    "underscore": "^1.7.0"
+  },
+  "devDependencies": {
+    "express": "^4.13.2",
+    "rewire": "^2.1.0",
+    "should": "^4.0.4"
+  },
+  "homepage": "https://github.com/goferito/nginx-reportr",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "metrics",
+    "nginx",
+    "mongodb",
+    "dashboard"
+  ]
+}
