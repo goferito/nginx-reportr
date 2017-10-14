@@ -3,3 +3,4 @@ secrets.js
 nginx.data.db
 testingNginx.db
 tmpNginxLog.log
+influxdb/

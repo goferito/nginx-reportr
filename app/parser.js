@@ -21,15 +21,14 @@ var parser = new NP('$remote_addr - $remote_user [$time_local] '
 me.startReporting = function(filepath, reports, report){
   
   var lastTime = 0;
-  var counters = reports.reduce(function(c,r){
-
-        //Create a counter per report and initialize it to zero
-        c[r.name] = 0;
-        return c;
-      }, {});
+  var counters = reports.reduce(function(c,r) {
+    //Create a counter per report and initialize it to zero
+    c[r.name] = 0;
+    return c;
+  }, {});
 
   parser.read(filepath, { tail: true },
-    function(row){
+    function(row) {
 
       // Format the row time (25/Jun/2015:12:48:50 from log is not parsable)
       // excluding second, to have minute aggregation
@@ -41,10 +40,9 @@ me.startReporting = function(filepath, reports, report){
 
       // If the row time is bigger, send all the reports, and set the
       // counters to zero
-      if(rowTime > lastTime){
-        if(lastTime){
-          for(var reportName in counters){
-
+      if (rowTime > lastTime) {
+        if (lastTime) {
+          for(var reportName in counters) {
             //Report the count
             report({
               name: reportName,
@@ -60,8 +58,7 @@ me.startReporting = function(filepath, reports, report){
       }
 
       // Check if the row matches the conditions of any report
-      reports.forEach(function(r){
-
+      reports.forEach(function(r) {
         var satifiesConditions = Object.keys(r.conditions).every(function(c){
           
           //Conditions may be strings or regular expressions
@@ -77,7 +74,6 @@ me.startReporting = function(filepath, reports, report){
         });
 
         if (satifiesConditions) {
-
           // Increment the counter for the current report
           counters[r.name] = (counters[r.name] || 0) + 1;
         }

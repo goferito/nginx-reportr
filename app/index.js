@@ -1,18 +1,14 @@
 
-var config = require('../config')
-  , parser = require('./parser')
-  , DataStore = require('nedb')
-  , fs = require('fs')
-  , Reportr = require('reportr-api')
-  , db = {}
+const fs = require('fs')
+const DataStore = require('nedb')
 
-var me = module.exports = {};
+const config = require('../config')
+const parser = require('./parser')
 
-
-var nginxReports = config.nginxReports;
-var nginxAvgValues = {};
-
-
+const db = {}
+const me = module.exports = {};
+const nginxReports = config.nginxReports;
+const nginxAvgValues = {};
 
 /**
  * Starts the nginx reporter with the environment config, or ovewriting it
@@ -29,10 +25,8 @@ me.startNginxReporter = function(options){
   options = options || {};
 
   // Give preference to the options in the arguments
-  var nginxLogFile = options.logfile || config.nginxLogFile
-    , localdb = options.localdb || config.nginxLocalDB
-    , reportrHost = options.reportrHost || config.reportrHost
-    , reportrAuth = options.reportrAuth || config.reportrAuth
+  const nginxLogFile = options.logfile || config.nginxLogFile
+  const localdb = options.localdb || config.nginxLocalDB
 
   //Check that nginx log file really exists
   if(!fs.existsSync(nginxLogFile)){
@@ -45,17 +39,11 @@ me.startNginxReporter = function(options){
     autoload: true
   });
 
-  // Create the reportr client
-  var reportr = new Reportr({
-    host: reportrHost,
-    //auth: reportrAuth
-  });
-
   // TODO create a status db to store the time of the last report
   // so if the service restarts, it doesnt report everything again
 
   // Start nginx reporter
-  parser.startReporting(nginxLogFile, nginxReports, function(report){
+  parser.startReporting(nginxLogFile, nginxReports, function(report) {
 
     // On every report, store it in the local db, then try to send it
     // to the server. When a OK response is got, delete it from the local db.
@@ -69,16 +57,16 @@ me.startNginxReporter = function(options){
       console.log(' - report saved');
 
       // Send a report to the Reportr backend
-      reportr.postEvent(report.name, {
-        count: report.count,
-        time: report.time
-      })
-      .then(function(res){
-        console.log('this is res:', res);
-      })
-      .fail(function(err){
-        console.error('the problem is', err);
-      });
+      // reportr.postEvent(report.name, {
+      //   count: report.count,
+      //   time: report.time
+      // })
+      // .then(function(res){
+      //   console.log('this is res:', res);
+      // })
+      // .fail(function(err){
+      //   console.error('the problem is', err);
+      // });
       //TODO if the promise is fulfiled, delete the report from the localdb
     });
 

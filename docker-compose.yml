@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  reporter:
+    build: '.'
+    depeneds_on:
+      - influxdb
+  influxdb:
+    image: influxdb
+    
