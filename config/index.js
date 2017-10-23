@@ -17,14 +17,11 @@ const defaults = {
       conditions: {
         status: /5[0-9]{2}/
       }
-    },
-    {
-      name: '66.249.69.69',
-      conditions: {
-        remote_addr: '66.249.69.69'
-      }
     }
-  ]
+  ],
+  influxHost: 'localhost',
+  influxPort: 8086,
+  influxDb: 'nginxreporter'
 };
 
 // Extend default config with environment dependent config

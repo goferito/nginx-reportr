@@ -1,6 +1,4 @@
- 
-
-var app = require('./app')
+const app = require('./app')
 
 //Start nginx reporter with the default configuration (./config)
 app.startNginxReporter();

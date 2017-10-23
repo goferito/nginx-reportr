@@ -13,6 +13,7 @@
     "url": "https://github.com/goferito/nginx-reportr/issues"
   },
   "dependencies": {
+    "influx": "^5.0.7",
     "nedb": "^1.1.2",
     "nginxparser": "^2.1.0",
     "reportr-api": "^2.0.0",

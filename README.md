@@ -5,6 +5,7 @@ Tails the nginx log, and sends the configured reports to a
 
 ### Usage
 
-Configure backend address
-Configure nginx log file
+1. Copy `secrets.example.js` to `secrets.js` and setup your configurations 
+1. Configure backend address
+1. Configure nginx log file
 

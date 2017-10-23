@@ -1,9 +1,9 @@
-
 const fs = require('fs')
 const DataStore = require('nedb')
 
 const config = require('../config')
 const parser = require('./parser')
+const client = require('./influxdb')
 
 const db = {}
 const me = module.exports = {};
@@ -39,9 +39,6 @@ me.startNginxReporter = function(options){
     autoload: true
   });
 
-  // TODO create a status db to store the time of the last report
-  // so if the service restarts, it doesnt report everything again
-
   // Start nginx reporter
   parser.startReporting(nginxLogFile, nginxReports, function(report) {
 
@@ -52,25 +49,28 @@ me.startNginxReporter = function(options){
     console.log('Reporting:');
     console.log(report);
 
-    db.reports.insert(report, function(err){
+    db.reports.insert(report, function(err) {
       if(err) console.error(err);
-      console.log(' - report saved');
 
-      // Send a report to the Reportr backend
-      // reportr.postEvent(report.name, {
-      //   count: report.count,
-      //   time: report.time
+      // client.getDatabaseNames()
+      // .then(names => {
+      //   console.log(names)
       // })
-      // .then(function(res){
-      //   console.log('this is res:', res);
-      // })
-      // .fail(function(err){
-      //   console.error('the problem is', err);
-      // });
-      //TODO if the promise is fulfiled, delete the report from the localdb
+      // { name: '5xx.total', count: 1, time: 2015-06-25T04:49:00.000Z }
+      client.writePoints([{
+        measurement: report.name,
+        fields: {
+          count: report.count,
+          serverTime: new Date(report.time).getTime()
+        },
+      }])
+        .then(res => {
+          console.log('report saved')
+        })
+        .catch(console.error)
+
     });
 
   });
     
 };
-
